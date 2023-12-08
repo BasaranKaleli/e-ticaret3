@@ -143,3 +143,11 @@ siparis takibi
 
 cart -> items
 """
+
+# E-posta ayarları
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # SMTP sunucu adresi
+EMAIL_PORT = 587  # SMTP sunucu portu (örneğin, Gmail için 587)
+EMAIL_USE_TLS = True  # TLS kullanılıp kullanılmayacağı
+EMAIL_HOST_USER = 'your_username'  # SMTP kullanıcı adı
+EMAIL_HOST_PASSWORD = 'your_password'  # SMTP parola
