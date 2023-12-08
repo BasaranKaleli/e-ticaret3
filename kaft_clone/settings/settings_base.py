@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 
     # Third Party Apps:
     # 'django_extensions',
@@ -151,3 +152,5 @@ EMAIL_PORT = 587  # SMTP sunucu portu (örneğin, Gmail için 587)
 EMAIL_USE_TLS = True  # TLS kullanılıp kullanılmayacağı
 EMAIL_HOST_USER = 'your_username'  # SMTP kullanıcı adı
 EMAIL_HOST_PASSWORD = 'your_password'  # SMTP parola
+
+ASGI_APPLICATION = '<your_project_name>.asgi.application'

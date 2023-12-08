@@ -14,4 +14,7 @@ if os.environ.get('DJANGO_DEBUG') == 'True':
     # Hakan's Settings:
     INSTALLED_APPS += [
         'django_extensions',
+        'channels',
     ]
+
+ASGI_APPLICATION = '<your_project_name>.asgi.application'
