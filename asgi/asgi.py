@@ -5,7 +5,7 @@ from channels.auth import AuthMiddlewareStack
 from django.urls import path
 from your_app.consumers import ChatRoomConsumer
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', '<your_project_name>.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', '<ecommerce>.settings')
 
 application = ProtocolTypeRouter(
     {
@@ -13,7 +13,7 @@ application = ProtocolTypeRouter(
         'websocket': AuthMiddlewareStack(
             URLRouter(
                 [
-                    path('ws/some_path/<room_name>/', ChatRoomConsumer.as_asgi()),
+                    path('ws/some_path/<ChatRoomConsumer>/', ChatRoomConsumer.as_asgi()),
                 ]
             )
         ),

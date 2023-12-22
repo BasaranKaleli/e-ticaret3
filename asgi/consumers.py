@@ -1,4 +1,10 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+from email.message import EmailMessage
+from django.core.mail import get_connection, send_mail
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, get_object_or_404
+from .models import Category, Product
+from page.views import STATUS
 import json
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
@@ -64,3 +70,38 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         # Sistem mesajlarını kullanıcılara gönderebilirsiniz
         message = event['message']
         await self.send(text_data=json.dumps({'message': message}))
+
+class EmailConsumerMixin:
+    async def send_email(self, subject, message, from_email, recipient_list):
+        # E-posta gönderen ve alıcı bilgilerini ayarla
+        sender_email = "gonderen@example.com"
+        recipient_email = "alici@example.com"
+
+        # E-posta başlığı ve içeriği
+        subject = "Sipariş Onayı"
+        body = f"Siparişiniz onaylanmıştır. Sipariş Detayları:\n\n{order_data}"
+
+        # E-posta mesajını oluştur
+        email_message = EmailMessage(
+            subject,
+            body,
+            sender_email,
+            [recipient_email],
+        )
+
+        # E-posta gönderimini başlat
+        connection = get_connection(backend='django.core.mail.backends.smtp.EmailBackend')
+        await connection.send_messages([email_message])
+
+        print("E-posta başarıyla gönderildi.")
+
+class CombinedConsumer(AsyncWebsocketConsumer, EmailConsumerMixin):
+    async def connect(self):
+        await self.accept()
+
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        order_data = data['order_data']
+
+        # E-posta gönderme işlemini başlat
+        await self.send_email("Sipariş Onayı", f"Sipariş Detayları:\n\n{order_data}", "gonderen@example.com", ["alici@example.com"])
